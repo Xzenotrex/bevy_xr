@@ -24,6 +24,10 @@ shader_format_spirv = ["wgpu/spirv", "naga/spv-in", "naga/spv-out"]
 # Enable SPIR-V shader passthrough
 spirv_shader_passthrough = ["wgpu/spirv"]
 
+# Statically linked DXC shader compiler for DirectX 12
+# TODO: When wgpu switches to DirectX 12 instead of Vulkan by default on windows, make this a default feature
+statically-linked-dxc = ["wgpu/static-dxc"]
+
 trace = ["profiling"]
 tracing-tracy = []
 ci_limits = []
@@ -96,12 +100,17 @@ smallvec = { version = "1.11", features = ["const_new"] }
 offset-allocator = "0.2"
 variadics_please = "1.1"
 tracing = { version = "0.1", default-features = false, features = ["std"] }
+indexmap = { version = "2" }
+fixedbitset = { version = "0.5" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 # Omit the `glsl` feature in non-WebAssembly by default.
 naga_oil = { version = "0.17", default-features = false, features = [
   "test_shader",
 ] }
+
+[dev-dependencies]
+proptest = "1"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 naga_oil = "0.17"
